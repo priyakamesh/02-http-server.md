@@ -1,10 +1,19 @@
 'use strict';
 
-const http= require('http');
-const server = http.createServer();
+const {createServer}= require('http');
+const server = createServer();
 const { createReadStream } = require('fs');
-const stream = createReadStream('index.html')
+
+
 server.on('request',(req,res)=>{
-  stream.pipe(res)
+  const stream = createReadStream('index.html')
+  stream
+  .on('error',(err)=>{
+    res.end(error);
+  })
+  .on('open',()=>{
+    stream.pipe(res)
+  })
+
 });
 server.listen(8080)
